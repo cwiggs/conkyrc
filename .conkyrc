@@ -1,0 +1,136 @@
+# conky configuration
+#
+# The list of variables has been removed from this file in favour
+# of keeping the documentation more maintainable.
+# Check http://conky.sf.net for an up-to-date-list.
+#
+# For ideas about how to modify conky, please see:
+# http://crunchbanglinux.org/forums/topic/59/my-conky-config/
+#
+# For help with conky, please see:
+# http://crunchbanglinux.org/forums/topic/2047/conky-help/
+#
+# Enjoy! :)
+##############################################
+# Settings
+##############################################
+background yes
+use_xft yes
+xftfont Liberation Sans:size=9
+xftalpha 1
+update_interval 1.0
+total_run_times 0
+own_window yes
+own_window_transparent yes
+own_window_type desktop
+#own_window_argb_visual yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+minimum_size 200 200
+maximum_width 300 300 300 
+draw_shades no
+draw_outline yes
+draw_borders no
+draw_graph_borders yes
+default_color FFFFFF
+default_shade_color 000000
+default_outline_color 000000
+alignment top_right
+gap_x 12
+gap_y 56
+no_buffers yes
+uppercase no
+cpu_avg_samples 2
+override_utf8_locale no
+##############################################
+#  Output
+##############################################
+TEXT
+ S Y S T E M    I N F O
+${hr}
+$kernel:$alignr $machine
+Host:$alignr$nodename
+Uptime:$alignr$uptime
+
+M E M O R Y
+${hr 2}
+RAM:$alignr$mem/$memmax
+${membar}
+Swap:$alignr$swap/$swapmax
+${swapbar}
+
+P R O C E S S O R S
+${hr 2}
+CPU 1:$alignc ${cpu cpu0}% $alignr ${execi 300 sensors | grep 'Core 0' | cut -c16-17
+}C
+${cpubar}
+CPU 2:$alignc ${cpu cpu1}% $alignr ${execi 300 sensors | grep 'Core 1' | cut -c16-17
+}C 
+${cpubar}
+CPU 3:$alignc ${cpu cpu2}% $alignr ${execi 300 sensors | grep 'Core 2' | cut -c16-17
+}C 
+${cpubar}
+CPU 4:$alignc ${cpu cpu3}% $alignr ${execi 300 sensors | grep 'Core 3' | cut -c16-17
+}C
+${cpubar}
+GPU:$alignc ${execi 300 aticonfig --adapter=p --od-getclocks |grep GPU | cut -b30-33
+} $alignr ${execi 300 aticonfig --odgt | grep C | cut -b42-44}C
+Clock Speed:$alignr ${execi 300 aticonfig --adapter=p --od-getclocks | grep Clocks | cut -b32-36}Mhz
+Ram:$alignr ${execi 300 aticonfig --adapter=p --od-getclocks | grep Clocks | cut -b46-49}Mhz
+
+
+D I S K S
+${hr 2}
+Root:$alignr${fs_used /}/${fs_size /}
+${fs_bar /}
+Home:$alignr${fs_used /home}/${fs_size /home}
+${fs_bar /home}
+#Battery:$alignr${battery_percent}%
+#${battery_bar}
+
+
+T O P - P R O C E S S E S
+${hr 2}
+NAME $alignr PID    CPU
+${top name 1} $alignr ${top pid 1} ${top cpu 1}
+${top name 2} $alignr ${top pid 2} ${top cpu 2}
+${top name 3} $alignr ${top pid 3} ${top cpu 3}
+${top name 4} $alignr ${top pid 4} ${top cpu 4}
+${top name 5} $alignr ${top pid 5} ${top cpu 5}
+${top name 6} $alignr ${top pid 6} ${top cpu 6}
+${top name 7} $alignr ${top pid 7} ${top cpu 7}
+${top name 8} $alignr ${top pid 8} ${top cpu 8}
+
+
+S H O R T C U T    K E Y S
+${hr 2}
+Alt+F2$alignr Run Dialog
+Alt+F3$alignr Alt Menu
+#Super+Space$alignr Main Menu
+#Super+Tab$alignr Client Menu
+#Super+t$alignr Terminal
+#Super+f$alignr File Manager
+#Super+e$alignr Editor
+#Super+m$alignr Media Player
+#Super+w$alignr Web Browser
+#Super+h$alignr Task Manager
+#Super+l$alignr Lock Screen
+#Super+v$alignr Volume Control
+#Super+x$alignr Logout
+#Right-ctrl+Up$alignr PgUp
+#Right-ctrl+Down$alignr PgDn
+#Right-ctrl+left$alignr Home
+#Right-ctrl+right$alignr End
+#Right-ctrl+Backspace$alignr Del
+#Right-ctrl+Right-alt$alignr Middle Click
+#Right-ctrl+F6-F10$alignr F6-F10
+
+N E T W O R K
+${hr 2}
+Extenal IP:$alignr${execi 300 wget -q -O /dev/stdout http://checkip.dyndns.org/ | cut -d : -f 2- | cut -d \< -f -1}
+Local IP:$alignr${addr wlan0}
+#Connection quality: $alignr ${wireless_link_qual_perc ath0}%
+${downspeedgraph eth1}
+${downspeed eth1} kb/s $alignr total: ${totaldown eth1}
+${upspeedgraph eth1}
+${upspeed eth1} kb/s $alignr total: ${totalup eth1}
